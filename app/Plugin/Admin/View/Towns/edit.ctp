@@ -1,11 +1,10 @@
 <div <?php if(!$isError){?>class="container"<?php }?>>    
     <div class="panel panel-custom mrg">
-        <div class="panel-heading"><?php echo __('Edit City');?><?php if(!$isError){?><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><?php }?></div>
+        <div class="panel-heading"><?php echo __('Edit Township');?><?php if(!$isError){?><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><?php }?></div>
         <div class="panel-body"><?php echo $this->Session->flash();?>
-	    <?php echo $this->Form->create('City',array('class'=>'form-horizontal'));?>
-	    <?php  foreach ($City as $k=>$post): $id=$post['City']['id'];$form_no=$k;
-		$selstate="state$k";
-		$seltown="town$k";
+	    <?php echo $this->Form->create('Town',array('class'=>'form-horizontal'));?>
+	    <?php  foreach ($Town as $k=>$post): $id=$post['Town']['id'];$form_no=$k;
+	    $selstate="state$k";
 	    ?>
 	    <script type="text/javascript">
 	    $(document).ready(function(){
@@ -27,26 +26,6 @@
 					
 				}
 			});
-
-			$('#stateId<?php echo$k;?>').change(function() {
-            var selectedValue = $(this).val();
-            var targeturl = $(this).attr('rel') + '?id=' + selectedValue;
-            $.ajax({
-                    type: 'get',
-                    url: targeturl,
-                    beforeSend: function(xhr) {
-                            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    },
-                    success: function(response) {
-                            if (response) {
-                                    $('#townId<?php echo$k;?>').html(response);
-                            }
-                    },
-                    error: function(e) {
-                            
-                    }
-            });
-    });
 		});
 	    });
 	    </script>
@@ -57,32 +36,24 @@
 			<label for="group_name" class="col-sm-3 control-label"><?php echo __('Country');?></label>
 			<div class="col-sm-9">
 			  <?php  $url = $this->Html->url(array('controller'=>'../Ajaxcontents','action' => 'state'));
-			  echo $this->Form->select("$k.City.country_id",$country,array('id'=>"countryId$k",'rel'=>$url,'required'=>true,'class'=>'form-control','empty'=>'Select'));?>
+			  echo $this->Form->select("$k.Town.country_id",$country,array('id'=>"countryId$k",'rel'=>$url,'required'=>true,'class'=>'form-control','empty'=>'Select'));?>
 			</div>
 		    </div>
 		    <div class="form-group">
 			<label for="group_name" class="col-sm-3 control-label"><?php echo __('State');?></label>
 			<div class="col-sm-9">
-			  <?php  
-			 $townurl = $this->Html->url(array('controller'=>'../Ajaxcontents','action' => 'town')); 
-			  echo $this->Form->select("$k.City.state_id",$$selstate,array('id'=>"stateId$k",'rel'=>$townurl,'required'=>true,'class'=>'form-control','empty'=>'Select'));?>
-			</div>
-		    </div>
-			<div class="form-group">
-			<label for="group_name" class="col-sm-3 control-label"><?php echo __('Township');?></label>
-			<div class="col-sm-9">
-			  <?php  echo $this->Form->select("$k.City.town_id",$$seltown,array('id'=>"townId$k",'required'=>true,'class'=>'form-control','empty'=>'Select'));?>
+			  <?php  echo $this->Form->select("$k.Town.state_id",$$selstate,array('id'=>"stateId$k",'required'=>true,'class'=>'form-control','empty'=>'Select'));?>
 			</div>
 		    </div>
 		    <div class="form-group">
 			<label for="group_name" class="col-sm-3 control-label"><?php echo __('Name');?></label>
 			<div class="col-sm-9">
-			   <?php echo $this->Form->input("$k.City.name",array('label' => false,'class'=>'form-control','placeholder'=> __('Name'),'div'=>false));?>
+			   <?php echo $this->Form->input("$k.Town.name",array('label' => false,'class'=>'form-control','placeholder'=> __('Name'),'div'=>false));?>
 			</div>
 		    </div>
 		    <div class="form-group text-left">
 			<div class="col-sm-offset-3 col-sm-6">
-			    <?php echo $this->Form->input("$k.City.id", array('type' => 'hidden'));?>
+			    <?php echo $this->Form->input("$k.Town.id", array('type' => 'hidden'));?>
 			</div>
 		    </div>
 		</div>

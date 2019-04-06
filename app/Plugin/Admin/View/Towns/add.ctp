@@ -1,7 +1,7 @@
 <div class="panel panel-custom">
-    <div class="panel-heading"><?php echo __('Add City');?></div>
+    <div class="panel-heading"><?php echo __('Add Township');?></div>
     <div class="panel-body"><?php echo $this->Session->flash();?>
-        <?php echo $this->Form->create('City', array('class'=>'form-horizontal'));?>
+        <?php echo $this->Form->create('Town', array('class'=>'form-horizontal'));?>
         <div class="form-group">
             <label for="group_name" class="col-sm-3 control-label"><small><?php echo __('Country');?></small></label>
             <div class="col-sm-9">
@@ -12,20 +12,13 @@
         <div class="form-group">
             <label for="group_name" class="col-sm-3 control-label"><small><?php echo __('State');?></small></label>
             <div class="col-sm-9">
-               <?php $stateurl = $this->Html->url(array('controller'=>'../Ajaxcontents','action' => 'town'));
-                echo $this->Form->select('state_id',$state,array('id'=>'stateId','required'=>true,'rel'=>$stateurl,'class'=>'form-control','empty'=>'Select'));?>
+               <?php  echo $this->Form->select('state_id',$state,array('id'=>'stateId','required'=>true,'class'=>'form-control','empty'=>'Select'));?>
             </div>
         </div>
         <div class="form-group">
-            <label for="group_name" class="col-sm-3 control-label"><small><?php echo __('Township');?></small></label>
+            <label for="group_name" class="col-sm-3 control-label"><small><?php echo __('Township Name');?></small></label>
             <div class="col-sm-9">
-               <?php  echo $this->Form->select('town_id',$town,array('id'=>'townId','required'=>true,'class'=>'form-control','empty'=>'Select'));?>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="group_name" class="col-sm-3 control-label"><small><?php echo __('City Name');?></small></label>
-            <div class="col-sm-9">
-               <?php echo $this->Form->input('name',array('label' => false,'class'=>'form-control','placeholder'=> __('City Name'),'div'=>false));?>
+               <?php echo $this->Form->input('name',array('label' => false,'class'=>'form-control','placeholder'=> __('Township Name'),'div'=>false));?>
             </div>
         </div>
         <div class="form-group text-left">
@@ -51,26 +44,6 @@ $('#countryId').change(function() {
                     success: function(response) {
                             if (response) {
                                     $('#stateId').html(response);
-                            }
-                    },
-                    error: function(e) {
-                            
-                    }
-            });
-    });
-
-    $('#stateId').change(function() {
-            var selectedValue = $(this).val();
-            var targeturl = $(this).attr('rel') + '?id=' + selectedValue;
-            $.ajax({
-                    type: 'get',
-                    url: targeturl,
-                    beforeSend: function(xhr) {
-                            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    },
-                    success: function(response) {
-                            if (response) {
-                                    $('#townId').html(response);
                             }
                     },
                     error: function(e) {

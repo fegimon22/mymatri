@@ -12,13 +12,23 @@ class AjaxcontentsController extends AppController
         $stateName=$this->State->find('list',array('conditions'=>array('country_id'=>$id),'order'=>array('State.name'=>'asc')));
         $this->set(compact('stateName'));
     }
+    public function town()
+    { 
+        $this->layout=null;
+        $this->request->onlyAllow('ajax');
+        $id = $this->request->query('id');
+        $this->loadModel('Town');
+        $townName=$this->Town->find('list',array('conditions'=>array('state_id'=>$id),'order'=>array('Town.name'=>'asc')));
+        //print_r(compact('townName'));die;
+        $this->set(compact('townName'));
+    }
     public function city()
     {
         $this->layout=null;
         $this->request->onlyAllow('ajax');
         $id = $this->request->query('id');
         $this->loadModel('City');
-        $cityName=$this->City->find('list',array('conditions'=>array('state_id'=>$id),'order'=>array('City.name'=>'asc')));
+        $cityName=$this->City->find('list',array('conditions'=>array('town_id'=>$id),'order'=>array('City.name'=>'asc')));
         $this->set(compact('cityName'));
     }
     public function caste()

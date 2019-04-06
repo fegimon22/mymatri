@@ -1,6 +1,6 @@
 <script type="text/javascript">
     $(document).ready(function(){        
-        $('#dob').datetimepicker({locale:'<?php echo $configLanguage; ?>',format:'<?php echo $dpFormat; ?>'});
+        $('#dob').datetimepicker({locale:'<?php echo $configLanguage; ?>'});
 	 $('#birth_time').datetimepicker({locale:'<?php echo $configLanguage; ?>',format:'HH:mm:ss'});
 });
 </script>
@@ -11,6 +11,27 @@
         <div class="panel-heading"><strong><?php echo __('Add Member'); ?></strong></div>
         <div class="panel-body">
         <?php echo $this->Form->create('Member', array('class' => 'form-horizontal', 'type' => 'file')); ?>
+
+        <div class="panel panel-default">
+<div class="panel-heading"><strong><?php echo __('Personal Info'); ?></strong></div>
+ <div class="panel-body">
+<div class="form-group">
+<label for="group_name" class="col-sm-2 control-label"><small><?php echo __('In My Own Words'); ?><span class="text-danger"> </span></small></label>
+    <div class="col-sm-6">
+    <?php echo $this->Form->input('about_me', array('type' => 'textarea','div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('In My Own Words'))); ?>
+   </div>
+</div>
+</div>
+
+<div class="panel-body">
+<div class="form-group">
+<label for="group_name" class="col-sm-2 control-label"><small><?php echo __('About My Family'); ?><span class="text-danger"> </span></small></label>
+    <div class="col-sm-6">
+    <?php echo $this->Form->input('about_family', array('type' => 'textarea','div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('About My Family'))); ?>
+   </div>
+</div>
+</div>
+</div>
         <div class="panel panel-default">
   <!-- Default panel contents -->
  <div class="panel-heading"><strong><?php echo __(' Basic Details'); ?></strong></div>
@@ -31,7 +52,23 @@
             </div>
    </div>
 </div>
- <div class="panel-body">
+<div class="panel-body">
+<div class="form-group">
+    <label for="email" class="col-sm-2 control-label"><small><?php echo __('User Name'); ?><span class="text-danger"> *</span></small></label>
+	    <div class="col-sm-6">
+		<?php echo $this->Form->input('user_name', array('label' => false, 'class' => 'form-control', 'placeholder' => __('User Name'), 'div' => false)); ?>
+	    </div>
+ </div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+     <label for="group_name" class="col-sm-2 control-label"><small><?php echo __('Password'); ?><span class="text-danger"> *</span></small></label>
+	<div class="col-sm-6">
+	    <?php echo $this->Form->input('password', array('type' => 'password', 'label' => false, 'class' => 'form-control', 'placeholder' => __('Password'), 'div' => false, 'maxlength' => 15, 'minlength' => 4)); ?>
+	</div>
+ </div>
+</div>
+<div class="panel-body">
 <div class="form-group">
 <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Date of Birth'); ?></small></label>
     <div class="col-sm-6">
@@ -40,6 +77,14 @@
 	<span class="input-group-addon"><span class="fa fa-calendar"></span></span>
 	</div>
    </div>
+ </div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+    <label for="email" class="col-sm-2 control-label"><small><?php echo __('Age'); ?></small></label>
+	    <div class="col-sm-6">
+		<?php echo $this->Form->input('age', array('label' => false, 'class' => 'form-control', 'placeholder' => __('Age'), 'div' => false)); ?>
+	    </div>
  </div>
 </div>
 <div class="panel-body">
@@ -54,12 +99,12 @@
 <div class="form-group">
 <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Weight'); ?></small></label>
     <div class="col-sm-6">
-       <?php $weightName = array('41' => '41 Kg', '42' => '42 Kg', '43' => '43 Kg', '44' => '44 Kg'); 
+       <?php 
        echo $this->Form->select('weight_id', $weightName, array('class' => 'form-control', 'empty' => __('Select'))); ?>
    </div>
  </div>
 </div>
- <div class="panel-body">
+<div class="panel-body">
 	<div class="form-group">
 	<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Marital Status'); ?></small></label>
     <div class="col-sm-6">
@@ -136,6 +181,24 @@
    </div>
    </div>
 </div>
+
+
+<!--<div class="panel-body">
+<div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Sex'); ?></small></label>
+    <div class="col-sm-6">
+      <?php
+        $option = array('Male' => __('Male'), 'Female' => __('Female'));
+        echo $this->Form->select('sex', $option, array('div' => false, 'label' => false, 'class' => 'form-control', 'empty' => __('Select')));
+        ?>
+   </div>
+   </div>
+</div>-->
+ 
+
+ 
+
+
 
 <div class="panel-body">
 <div class="form-group">
@@ -218,20 +281,111 @@
    </div>
 </div>
 </div>
-<div class="panel-body">
+<!--<div class="panel-body">
 <div class="form-group">
 <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Raasi / Moon Sign'); ?></small></label>
     <div class="col-sm-6">
-      <?php echo $this->Form->select('rashy_id', $rashiName, array('class' => 'form-control', 'empty' => __('Select'))); ?>
+      <?php //echo $this->Form->select('rashy_id', $rashiName, array('class' => 'form-control', 'empty' => __('Select'))); ?>
     
    </div>
    </div>
 </div>
+<div class="panel-body">
+<div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Birth Time'); ?></small></label>
+    <div class="col-sm-6">
+    <div class="input-group date" id="birth_time">
+	<?php //echo $this->Form->input('birth_time', array('type' => 'text', 'label' => false, 'class' => 'form-control', 'div' => false)); ?>
+	<span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+	</div>
+    </div>
+   </div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+    </div>
+    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Birth Place'); ?></small></label>
+    <div class="col-sm-6">
+      <?php //echo $this->Form->input('birth_place', array('div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('Birth Place'))); ?>
+   </div>
+   </div>-->
 </div>
 
+<div class="panel panel-default">
+<div class="panel-heading"><strong><?php echo __('Professional Information'); ?></strong></div>
+ <div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Highest Education'); ?></small></label>
+    <div class="col-sm-6">
+       <?php echo $this->Form->select('education_id', $educationName, array('class' => 'form-control', 'empty' => __('Select'))); ?>
+   </div>
+</div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('College/ Institution'); ?></small></label>
+    <div class="col-sm-6">
+    <?php echo $this->Form->input('college_name', array('label' => false, 'class' => 'form-control', 'placeholder' => __('College / Institution'), 'div' => false)); ?>
+   </div>
+</div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Education in Detail'); ?></small></label>
+    <div class="col-sm-6">
+    <?php echo $this->Form->input('education_detail', array('label' => false, 'class' => 'form-control', 'placeholder' => __('Education in Detail'), 'div' => false)); ?>
+   </div>
+</div>
+</div>
+
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Occupation'); ?></small></label>
+    <div class="col-sm-6">
+      <?php echo $this->Form->select('occupation_id', $occupationName, array('class' => 'form-control', 'empty' => __('Select'))); ?>
+   </div>
+   </div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Occupation in Detail'); ?></small></label>
+    <div class="col-sm-6">
+    <?php echo $this->Form->input('occupation_detail', array('label' => false, 'class' => 'form-control', 'placeholder' => __('Occupation in Detail'), 'div' => false)); ?>
+   </div>
+   </div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Employed in'); ?></small></label>
+    <div class="col-sm-6">
+       <?php
+        echo $this->Form->select('employed_id', $employedName, array('class' => 'form-control', 'empty' => __('Select')));
+        ?>
+   </div>
+   </div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><?php echo __('Annual Income'); ?></label>
+	<div class="col-sm-6">
+	<?php //$income = array('0-1000' => __('0-1000'), '1000-5000' => __('1000-5000'), '5000-10000' => __('5000-10000'), '10000-20000' => __('10000-20000'), '20000-30000' => __('20000-30000'), '30000-50000' => __('30000-50000'), '50000-100000' => __('50000-100000'), '100000-above' => __('100000-above'));
+echo $this->Form->select('income_id', $incomeName, array('class' => 'form-control', 'empty' => __('Select'))); ?>
+       </div>
+   </div>
+</div>
+</div>
 
 <div class="panel panel-default">
 <div class="panel-heading"><strong><?php echo __('Location Information'); ?></strong></div>
+<div class="panel-body">
+<div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Address'); ?></small></label>
+    <div class="col-sm-6">
+      <?php echo $this->Form->input('address', array('div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('Address'))); ?>
+   </div>
+    
+</div>
+</div>
  <div class="panel-body">
 <div class="form-group">
 <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Country Living in'); ?></small></label>
@@ -245,84 +399,357 @@
 <div class="form-group">
 <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Residing State'); ?></small></label>
     <div class="col-sm-6">
-    <?php $url = $this->Html->url(array('controller' => '../Ajaxcontents', 'action' => 'city'));
-    echo $this->Form->select('state_id', $stateName, array('id' => 'stateId', 'rel' => $url, 'class' => 'form-control', 'empty' => __('Select'))); ?>
+    <?php 
+    $urltown = $this->Html->url(array('controller' => '../Ajaxcontents', 'action' => 'town'));
+    echo $this->Form->select('state_id', $stateName, array('id' => 'stateId', 'rel' => $urltown, 'class' => 'form-control', 'empty' => __('Select'))); ?>
    </div>
 </div>
 </div>
 <div class="panel-body">
 <div class="form-group">
-<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Residing City / District'); ?></small></label>
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Residing Township'); ?></small></label>
+    <div class="col-sm-6">
+    <?php $urlcity = $this->Html->url(array('controller' => '../Ajaxcontents', 'action' => 'city'));
+    echo $this->Form->select('town_id', $townName, array('id' => 'townId', 'rel' => $urlcity, 'class' => 'form-control', 'empty' => __('Select'))); ?>
+    </div>
+   </div>
+</div>
+
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Residing City'); ?></small></label>
     <div class="col-sm-6">
     <?php echo $this->Form->select('city_id', $cityName, array('id' => 'cityId', 'rel' => $url, 'class' => 'form-control', 'empty' => __('Select'))); ?>
     </div>
    </div>
 </div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Citizenship'); ?></small></label>
+    <div class="col-sm-6">
+      <?php $url = $this->Html->url(array('controller' => '../Ajaxcontents', 'action' => 'state'));
+        echo $this->Form->select('citizenship_id', $countryName, array('id' => 'countryId', 'rel' => $url, 'class' => 'form-control', 'empty' => __('Select'))); ?>
+   </div>
 </div>
+</div>
+</div>
+
+
 
 <div class="panel-body">
 <div class="panel panel-default">
 <div class="panel-heading"><strong><?php echo __('Family Details'); ?></strong></div>
  <div class="panel-body">
 <div class="form-group">
-     <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Father Occupation'); ?></small></label>
-    <div class="col-sm-4"><?php echo $this->Form->input('father_occupation', array('type' => 'text', 'label' => false, 'class' => 'form-control', 'placeholder' => __('Father Occupation'), 'div' => false)); ?>
-   </div>
-    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Mother Occupation'); ?></small></label>
-    <div class="col-sm-4">
-      <?php echo $this->Form->input('mother_occupation', array('type' => 'text', 'label' => false, 'class' => 'form-control', 'placeholder' => __('Mother Occupation'), 'div' => false)); ?>
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Family Value'); ?></small></label>
+    <div class="col-sm-6">
+    <?php
+    //$familyValue = array('Orthodox' => __('Orthodox'), 'Traditional' => __('Traditional'), 'Moderate' => __('Moderate'), 'Liberal' => __('Liberal'));
+    echo $this->Form->select('familyvalue_id', $familyValue, array('div' => false, 'label' => false, 'class' => 'form-control', 'empty' => __('Select')));
+    ?>
+ </div>
+</div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Family Type'); ?></small></label>
+    <div class="col-sm-6">
+     <?php
+    //$familyType = array('Joint' => __('Joint'), 'Nuclear' => __('Nuclear'), 'Other' => __('Other'));
+    echo $this->Form->select('familytype_id', $familyType, array('div' => false, 'label' => false, 'class' => 'form-control', 'empty' => __('Select')));
+    ?>
    </div>
 </div>
 </div>
 <div class="panel-body">
 <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('No Of Brother'); ?></small></label>
-    <div class="col-sm-4">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Family Status'); ?></small></label>
+    <div class="col-sm-6">
+       <?php
+        //$familyStatus = array('Lower Class' => __('Lower Class'), 'Middle Class' => __('Middle Class'), 'Upper Middle Class' => __('Upper Middle Class'), 'Rich / Affluent' => __('Rich / Affluent'));
+        echo $this->Form->select('familystatus_id', $familyStatus, array('div' => false, 'label' => false, 'class' => 'form-control', 'empty' => __('Select')));
+        ?>
+   </div>  
+   
+   </div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Father Educated'); ?></small></label>
+    <div class="col-sm-6">
+       <?php
+        $father_educated = array('Yes' => __('Yes'), 'No' => __('No'));
+        echo $this->Form->select('father_educated', $father_educated, array('div' => false, 'label' => false, 'class' => 'form-control', 'empty' => __('Select')));
+        ?>
+   </div>  
+   
+   </div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __("Father's Occupation"); ?></small></label>
+    <div class="col-sm-6">
+    <?php 
+    $fatherStatus = array('Employed' => __('Employed'), 'Business Man' => __('Business Man'), 'Professional' => __('Professional'), 'Retired' => __('Retired'), 'Not Employed' => __('Not Employed'), 'Passed Away' => __('Passed Away'));
+    echo $this->Form->select('father_occupation', $fatherStatus, array('div' => false, 'label' => false, 'class' => 'form-control', 'empty' => __('Select')));
+    //echo $this->Form->input('father_occupation', array('type' => 'text', 'label' => false, 'class' => 'form-control', 'placeholder' => __('Father Status'), 'div' => false)); ?>
+   </div>
+   </div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Mother Educated'); ?></small></label>
+    <div class="col-sm-6">
+       <?php
+        $mother_educated = array('Yes' => __('Yes'), 'No' => __('No'));
+        echo $this->Form->select('mother_educated', $mother_educated, array('div' => false, 'label' => false, 'class' => 'form-control', 'empty' => __('Select')));
+        ?>
+   </div>  
+   
+   </div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Mother Occupation'); ?></small></label>
+    <div class="col-sm-6">
+    <?php 
+    $motherStatus = array('Employed' => __('Employed'), 'Business Man' => __('Business Man'), 'Professional' => __('Professional'), 'Retired' => __('Retired'), 'Not Employed' => __('Not Employed'), 'Passed Away' => __('Passed Away'));
+    echo $this->Form->select('mother_occupation', $motherStatus, array('div' => false, 'label' => false, 'class' => 'form-control', 'empty' => __('Select')));
+    //echo $this->Form->input('father_occupation', array('type' => 'text', 'label' => false, 'class' => 'form-control', 'placeholder' => __('Father Status'), 'div' => false)); ?>
+   </div>
+   </div>
+</div>
+
+<div class="panel-body">
+<div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('No. of Brothers'); ?></small></label>
+    <div class="col-sm-6">
        <?php echo $this->Form->input('no_of_brother', array('label' => false, 'class' => 'form-control', 'placeholder' => __('No Of Brother'), 'div' => false)); ?>
    </div>
-    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('No Of Sister'); ?></small></label>
-    <div class="col-sm-4">
+</div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Bothers Married'); ?></small></label>
+    <div class="col-sm-6">
+       <?php echo $this->Form->input('bothers_married', array('label' => false, 'class' => 'form-control', 'placeholder' => __('Bothers Married status'), 'div' => false)); ?>
+   </div>
+</div>
+</div>
+
+<div class="panel-body">
+<div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('No Of Sisters'); ?></small></label>
+    <div class="col-sm-6">
       <?php echo $this->Form->input('no_of_sister', array('label' => false, 'class' => 'form-control', 'placeholder' => __('No Of Sister'), 'div' => false)); ?>
    </div>
 </div>
 </div>
 <div class="panel-body">
 <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Family Value'); ?></small></label>
-    <div class="col-sm-4">
-    <?php
-    $familyValue = array('Orthodox' => __('Orthodox'), 'Traditional' => __('Traditional'), 'Moderate' => __('Moderate'), 'Liberal' => __('Liberal'));
-    echo $this->Form->select('family_value', $familyValue, array('div' => false, 'label' => false, 'class' => 'form-control', 'empty' => __('Select')));
-    ?>
- </div>
-    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Family Type'); ?></small></label>
-    <div class="col-sm-4">
-     <?php
-    $familyType = array('Joint' => __('Joint'), 'Nuclear' => __('Nuclear'), 'Other' => __('Other'));
-    echo $this->Form->select('family_type', $familyType, array('div' => false, 'label' => false, 'class' => 'form-control', 'empty' => __('Select')));
-    ?>
+    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Sisters Married'); ?></small></label>
+    <div class="col-sm-6">
+       <?php echo $this->Form->input('sisters_married', array('label' => false, 'class' => 'form-control', 'placeholder' => __('Sisters Married status'), 'div' => false)); ?>
+   </div>
+</div>
+</div>
+
+<div class="panel-body">
+<div class="form-group">
+   <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Ancestral Origin'); ?></small></label>
+    <div class="col-sm-6">
+      <?php echo $this->Form->input('family_origion', array('type' => 'text', 'label' => false, 'class' => 'form-control', 'placeholder' => __('Ancestral / Family Origin'), 'div' => false)); ?>
    </div>
    </div>
 </div>
 <div class="panel-body">
 <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Family Status'); ?></small></label>
-    <div class="col-sm-4">
-       <?php
-        $familyStatus = array('Lower Class' => __('Lower Class'), 'Middle Class' => __('Middle Class'), 'Upper Middle Class' => __('Upper Middle Class'), 'Rich / Affluent' => __('Rich / Affluent'));
-        echo $this->Form->select('family_status', $familyStatus, array('div' => false, 'label' => false, 'class' => 'form-control', 'empty' => __('Select')));
-        ?>
-   </div>
-    <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Family Origion'); ?></small></label>
-    <div class="col-sm-4">
-      <?php echo $this->Form->input('family_origion', array('type' => 'text', 'label' => false, 'class' => 'form-control', 'placeholder' => __('Father Origion'), 'div' => false)); ?>
+   <label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Asset Values'); ?></small></label>
+    <div class="col-sm-6">
+      <?php echo $this->Form->input('asset_values', array('type' => 'text', 'label' => false, 'class' => 'form-control', 'placeholder' => __('Asset Values'), 'div' => false)); ?>
    </div>
    </div>
 </div>
+</div>
+
+
+
+
+
+<div class="panel panel-default">
+<div class="panel-heading"><strong><?php echo __('Hobbies and Interests'); ?></strong></div>
+ <div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __(' Hobbies'); ?></small></label>
+    <div class="col-sm-6">
+    <?php echo $this->Form->input('hobbies', array('div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('Hobbies'))); ?>
+   </div>
+</div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __(' Interests'); ?></small></label>
+    <div class="col-sm-6">
+    <?php echo $this->Form->input('interests', array('div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('Interests'))); ?>
+   </div>
+</div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __(' Favourite music'); ?></small></label>
+    <div class="col-sm-6">
+    <?php echo $this->Form->input('favourite_music', array('div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('Favourite music'))); ?>
+   </div>
+</div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __(' Favourite Reads'); ?></small></label>
+    <div class="col-sm-6">
+    <?php echo $this->Form->input('favourite_reads', array('div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('Favourite Reads'))); ?>
+   </div>
+</div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Preffered Movies'); ?></small></label>
+    <div class="col-sm-6">
+    <?php echo $this->Form->input('preffered_movies', array('div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('Preffered Movies'))); ?>
+   </div>
+</div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Sports Fitness Activities'); ?></small></label>
+    <div class="col-sm-6">
+    <?php echo $this->Form->input('sports_fitness_activities', array('div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('Sports Fitness Activities'))); ?>
+   </div>
+</div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Favorite Cusine'); ?></small></label>
+    <div class="col-sm-6">
+    <?php echo $this->Form->input('favorite_cusine', array('div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('Favorite Cusine'))); ?>
+   </div>
+</div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Preffered Dress style'); ?></small></label>
+    <div class="col-sm-6">
+    <?php echo $this->Form->input('preffered_dress_style', array('div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('Preffered Dress style'))); ?>
+   </div>
+</div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Spoken languages'); ?></small></label>
+    <div class="col-sm-6">
+    <?php echo $this->Form->input('spoken_languages', array('div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('Spoken languages'))); ?>
+   </div>
+</div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label for="inputPassword3" class="col-sm-2 control-label"><small><?php echo __('Know Cooking'); ?></small></label>
+    <div class="col-sm-6">
+       <?php
+        $mother_educated = array('Yes' => __('Yes'), 'No' => __('No'));
+        echo $this->Form->select('know_cooking', $mother_educated, array('div' => false, 'label' => false, 'class' => 'form-control', 'empty' => __('Select')));
+        ?>
+   </div>   
+   </div>
+</div>
+</div>
+
+<div class="panel panel-default">
+<div class="panel-heading"><strong><?php echo __('Identity'); ?></strong></div>
+<div class="panel-body">
+<div class="form-group">
+                <label for="group_name" class="col-sm-2 control-label"><small><?php echo __('NRC Card'); ?></small></label>
+                <div class="col-sm-4">
+                <?php echo $this->Form->input('proofimg', array('type' => 'file', 'label' => false, 'class' => '', 'div' => false)); ?>
+                </div> 
+</div>
+</div>
+
+<!--<div class="panel-body">
+<div class="form-group">
+    <label for="email" class="col-sm-2 control-label"><small><?php echo __('NRC Card'); ?></small></label>
+	    <div class="col-sm-6">
+		<?php //echo $this->Form->input('nrc_card', array('label' => false, 'class' => 'form-control', 'placeholder' => __('NRC Card'), 'div' => false)); ?>
+	    </div>
+ </div>
+</div>-->
+<div class="panel-body">
+<div class="form-group">
+    <label for="email" class="col-sm-2 control-label"><small><?php echo __('Contact Person'); ?></small></label>
+	    <div class="col-sm-6">
+		<?php echo $this->Form->input('contact_person', array('label' => false, 'class' => 'form-control', 'placeholder' => __('Contact Person'), 'div' => false)); ?>
+	    </div>
+ </div>
+</div>
+<div class="panel-body">
+	<div class="form-group">
+	<label for="group_name" class="col-sm-2 control-label"><small><?php echo __('Phone Number'); ?><span class="text-danger"> *</span></small></label>
+	    <div class="col-sm-6">
+		<?php echo $this->Form->input('phone', array('type' => 'number', 'label' => false, 'class' => 'form-control', 'placeholder' => __('Phone Number'), 'div' => false)); ?>
+	    </div>
+	</div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+    <label for="email" class="col-sm-2 control-label"><small><?php echo __('Email-Id'); ?></small></label>
+	    <div class="col-sm-6">
+		<?php echo $this->Form->input('email', array('label' => false, 'class' => 'form-control', 'placeholder' => __('Email-Id'), 'div' => false)); ?>
+	    </div>
+ </div>
+</div>
+<div class="panel-body">
+<div class="form-group">
+    <label for="email" class="col-sm-2 control-label"><small><?php echo __('Facebook Id'); ?></small></label>
+	    <div class="col-sm-6">
+		<?php echo $this->Form->input('facebook', array('label' => false, 'class' => 'form-control', 'placeholder' => __('Facebook Id'), 'div' => false)); ?>
+	    </div>
+ </div>
+</div>
+
+</div>
+
+<div class="panel panel-default">
+<div class="panel-heading"><strong><?php echo __('Upload'); ?></strong></div>
+ <div class="panel-body">
+ <label for="group_name" class="col-sm-2 control-label"><small><?php echo __('Upload Profile Photo');?></small></label>
+                <div class="col-sm-6">
+                <?php echo $this->Form->input('photoimg',array('type' => 'file','label' => false,'class'=>'','div'=>false));?>
+                </div>
+</div>
+<div class="panel-body">
+ <label for="group_name" class="col-sm-2 control-label"><small><?php echo __('Upload More Photo');?></small></label>
+                <div class="col-sm-6">
+                <?php echo $this->Form->input('Pr.photo.', array('type' => 'file','label'=>false,'multiple'=>'multiple','class'=>'')); ?>
+                </div>
+</div>
+
+<div class="panel-body">
+<div class="form-group">
+<label for="group_name" class="col-sm-2 control-label"><small><?php echo __('Upload Horoscope'); ?></small></label>
+                <div class="col-sm-6">
+                <?php echo $this->Form->input('horoscopeimg', array('type' => 'file', 'label' => false, 'class' => '', 'div' => false)); ?>
+                </div>    
+</div>
+</div>
+
+</div>
+
+
+<div class="panel panel-default">
  <div class="col-sm-offset-2 col-sm-6">
                     <button type="submit" class="btn btn-success"><span class="fa fa-plus-circle"></span> <?php echo __('Save'); ?></button>
                     <?php echo $this->Html->link('<span class="fa fa-close"></span> '.__('Close'), array('controller' => 'Members', 'action' => 'index'), array('class' => 'btn btn-danger', 'escape' => false)); ?>
  </div>
+</div>
 
  
 </div></div>
@@ -331,9 +758,34 @@
         </div>
     </div>
 	</div> 
-</div>    
+   
+   
 <script type="text/javascript">
 $(document).ready(function(){
+   
+  /* $('#MemberAge').click(function() {
+        var dob = $('#MemberDob').val();
+        
+//dob = new Date(dob);
+
+var today = new Date();
+    var birthDate = new Date(dob);
+    
+    var age = today.getFullYear() - birthDate.getFullYear();
+    
+    var m = today.getMonth() - birthDate.getMonth();
+    
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+ alert(today);
+$("#MemberAge").val(age);
+
+ }); 
+*/
+
+
+
 $('#religionId').change(function() {
             var selectedValue = $(this).val();
             var targeturl = $(this).attr('rel') + '?id=' + selectedValue;
@@ -374,6 +826,26 @@ $('#countryId').change(function() {
             });
     });
 $('#stateId').change(function() {
+            var selectedValue = $(this).val();
+            var targeturl = $(this).attr('rel') + '?id=' + selectedValue;
+            $.ajax({
+                    type: 'get',
+                    url: targeturl,
+                    beforeSend: function(xhr) {
+                            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    },
+                    success: function(response) {
+                            if (response) {
+                                    $('#townId').html(response);
+                            }
+                    },
+                    error: function(e) {
+                            
+                    }
+            });
+    });
+
+    $('#townId').change(function() {
             var selectedValue = $(this).val();
             var targeturl = $(this).attr('rel') + '?id=' + selectedValue;
             $.ajax({

@@ -1,18 +1,18 @@
 <?php
-class CitiesController extends AdminAppController {
+class TownsController extends AdminAppController {
     public $helpers = array('Html', 'Form','Session','Paginator','Js'=> array('Jquery'));
     public $components = array('Session','Paginator','search-master.Prg');
     public $presetVars = true;
-    var $paginate = array('page'=>1,'order'=>array('City.name'=>'asc'));
+    var $paginate = array('page'=>1,'order'=>array('Town.name'=>'asc'));
     public function index()
     {
         try{
         $this->Prg->commonProcess();
         $this->Paginator->settings = $this->paginate;
-        $this->Paginator->settings['conditions'] = $this->City->parseCriteria($this->Prg->parsedParams());
+        $this->Paginator->settings['conditions'] = $this->Town->parseCriteria($this->Prg->parsedParams());
         $this->Paginator->settings['limit']=$this->pageLimit;
         $this->Paginator->settings['maxLimit']=$this->maxLimit;
-        $this->set('City', $this->Paginator->paginate());
+        $this->set('Town', $this->Paginator->paginate());
         if ($this->request->is('ajax'))
         {
             $this->render('index','ajax'); // View, Layout
@@ -29,12 +29,12 @@ class CitiesController extends AdminAppController {
         $countryId=null;
         if ($this->request->is('post'))
         {
-            $this->City->create();
+            $this->Town->create();
             try
             {
-                if ($this->City->save($this->request->data))
+                if ($this->Town->save($this->request->data))
                 {  
-                    $this->Session->setFlash(__('City Added Successfully'),'flash',array('alert'=>'success'));
+                    $this->Session->setFlash(__('Township Added Successfully'),'flash',array('alert'=>'success'));
                     return $this->redirect(array('action' => 'add'));
                 }
             }
@@ -43,7 +43,7 @@ class CitiesController extends AdminAppController {
                 $this->Session->setFlash($e->getMessage(),'flash',array('alert'=>'danger'));
                 return $this->redirect(array('action' => 'index'));
             }
-            $countryId=$this->request->data['City']['country_id'];
+            $countryId=$this->request->data['Town']['country_id'];
         }
         $this->loadModel('Country');
         $country=$this->Country->find('list',array('order'=>array('name'=>'asc')));
@@ -58,7 +58,6 @@ class CitiesController extends AdminAppController {
     {
         $this->loadModel('Country');
         $this->loadModel('State');
-        $this->loadModel('Town');
         $country=$this->Country->find('list');
         $this->set('country',$country);
          if (!$id)
@@ -70,13 +69,11 @@ class CitiesController extends AdminAppController {
         foreach($ids as $k=>$id)
         {
             $k++;
-            $post[$k]=$this->City->findById($id);
-            $state=$this->State->find('list',array('conditions'=>array('State.country_id'=>$post[$k]['City']['country_id'])));
+            $post[$k]=$this->Town->findById($id);
+            $state=$this->State->find('list',array('conditions'=>array('State.country_id'=>$post[$k]['Town']['country_id'])));
             $this->set("state$k",$state);
-            $town=$this->Town->find('list',array('conditions'=>array('Town.state_id'=>$post[$k]['City']['state_id'])));
-            $this->set("town$k",$town);
         }
-        $this->set('City',$post);
+        $this->set('Town',$post);
         if (!$post)
         {
             throw new NotFoundException(__('Invalid post'));
@@ -85,9 +82,9 @@ class CitiesController extends AdminAppController {
         {
             try
             {
-                if ($this->City->saveAll($this->request->data))
+                if ($this->Town->saveAll($this->request->data))
                 {
-                    $this->Session->setFlash(__('City has been updated'),'flash',array('alert'=>'success'));
+                    $this->Session->setFlash(__('Township has been updated'),'flash',array('alert'=>'success'));
                     return $this->redirect(array('action' => 'index'));
                 }
             }
@@ -114,11 +111,11 @@ class CitiesController extends AdminAppController {
         {
             if ($this->request->is('post'))
             {
-                foreach($this->data['City']['id'] as $key => $value)
+                foreach($this->data['Town']['id'] as $key => $value)
                 {
-                    $this->City->delete($value);
+                    $this->Town->delete($value);
                 }
-                $this->Session->setFlash(__('City has been deleted'),'flash',array('alert'=>'success'));
+                $this->Session->setFlash(__('Town has been deleted'),'flash',array('alert'=>'success'));
             }        
             $this->redirect(array('action' => 'index'));
         }
