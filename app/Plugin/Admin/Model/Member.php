@@ -2,7 +2,7 @@
 class Member extends AppModel
 {
   public $validationDomain = 'validation';
-   public $belongsTo=array('City','Town','State','Country','Caste','Religion','Education','Employed','Occupation','Height','Rashy','Habit','Maritialstatus','Mothertongue','Weight','Income','Town','Familyvalue','Familytype','Familystatus');
+   public $belongsTo=array('City','State','Country','Caste','Religion','Education','Employed','Occupation','Height','Rashy','Habit','Maritialstatus','Mothertongue','Weight','Income','Town','Familyvalue','Familytype','Familystatus');
    public $actsAs = array('search-master.Searchable');   
    public $validate = array('user_name' => array('rule1' => array('rule' => '/^[a-z0-9A-Z_]*$/i','required' => true,'message' => 'Invalid User Name'),
 						'rule2' => array('rule' => '/^(?!admin).*$/i','required' => true,'message' => 'Reserved User Name'),

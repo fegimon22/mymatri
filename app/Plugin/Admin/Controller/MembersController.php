@@ -50,7 +50,7 @@ class MembersController extends AdminAppController {
                 $this->request->data['Member']['reg_code'] = "";
                 $this->request->data['Member']['renewal_date'] = $this->currentDate;
                 $this->request->data['Member']['profileId'] = $profileId;
-
+                
                 $horoscopeName = $this->request->data['Member']['horoscopeimg']['name'];
                 $horoscopeTmp = $this->request->data['Member']['horoscopeimg']['tmp_name'];
                 $horoscopefileName=$this->CustomFunction->upload($horoscopeTmp,$horoscopeName,'horoscope',$this->siteOrganization);
@@ -75,52 +75,78 @@ class MembersController extends AdminAppController {
                    $this->request->data['Member']['proof'] = $prooffileName;
                 }
 
-                   $this->Member->create();
-                   //print_r($this->request->data); echo $this->request->data['Member']['horoscopeimg']['name'];die;
-                    if($this->Member->save($this->request->data))
-                    {
-                        $email=$this->request->data['Member']['email'];$memberName=$this->request->data['Member']['name'];
-                        $mobileNo=$this->request->data['Members']['phone'];
-                        $siteName=$this->siteName;$siteEmailContact=$this->siteEmailContact;$url=$this->siteDomain;
-                        if($email)
-                        {   $this->emailNotification='';
-                            if($this->emailNotification)
-                            {                          
-                                /* Send Email */
-                                $this->loadModel('Emailtemplate');
-                                $emailSettingArr=$this->Emailtemplate->findByType('SLC');
-                                if($emailSettingArr['Emailtemplate']['status']=="Published")
-                                {
-                                    $message=eval('return "' . addslashes($emailSettingArr['Emailtemplate']['description']) . '";');
-                                    $Email = new CakeEmail();
-                                    $Email->transport($this->emailSettype);
-                                    if($this->emailSettype=="Smtp")
-                                    $Email->config(array('host' => $this->emailHost,'port' =>  $this->emailPort,'username' => $this->emailUsername,'password' => $this->emailPassword));
-                                    $Email->from(array($this->siteEmail =>$this->siteName));
-                                    $Email->to($email);
-                                    $Email->template('default');
-                                    $Email->emailFormat('html');
-                                    $Email->subject($emailSettingArr['Emailtemplate']['name']);
-                                    $Email->send($message);
-                                    /* End Email */
-                                }
-                            }
-                        }
-                        $this->smsNotification ='';
-                        if($this->smsNotification)
-                        {
-                            /* Send Sms */
-                            $this->loadModel('Smstemplate');
-                            $smsTemplateArr=$this->Smstemplate->findByType('SLC');
-                            if($smsTemplateArr['Smstemplate']['status']=="Published")
-                            {
-                                $url="$this->siteDomain";
-                                $message=eval('return "' . addslashes($smsTemplateArr['Smstemplate']['description']) . '";');
-                                $this->CustomFunction->sendSms($mobileNo,$message,$this->smsSettingArr);
-                            }
-                            /* End Sms */
-                        }
+                $photoName=$this->request->data['Member']['photoimg']['name'];
+                $photoTmp=$this->request->data['Member']['photoimg']['tmp_name'];
+                $fileName=$this->CustomFunction->upload($photoTmp,$photoName,'member',$this->siteOrganization);
+                if(strlen($fileName)>0)
+                {
+                                    //$this->Register->unbindValidation('remove', array('user_name','email','name','password','phone'), true);
+                                    //$record=array('Register'=>array('id'=>$this->Register->id,'photo'=>$fileName));
+                                    //$this->Register->save($record);
+                                    $this->request->data['Member']['photo'] = $fileName;
+                }
 
+                   $this->Member->create();
+                 //print_r($this->request->data); echo $this->request->data['Member']['horoscopeimg']['name'];die;
+                   // print_r($this->Member->save($this->request->data));die;
+                  if($this->Member->save($this->request->data))
+                    { //echo "fdfsdf";die;
+                        // $email=$this->request->data['Member']['email'];$memberName=$this->request->data['Member']['name'];
+                        // $mobileNo=$this->request->data['Members']['phone'];
+                        // $siteName=$this->siteName;$siteEmailContact=$this->siteEmailContact;$url=$this->siteDomain;
+                        // if($email)
+                        // {   $this->emailNotification='';
+                        //     if($this->emailNotification)
+                        //     {                          
+                        //         /* Send Email */
+                        //         $this->loadModel('Emailtemplate');
+                        //         $emailSettingArr=$this->Emailtemplate->findByType('SLC');
+                        //         if($emailSettingArr['Emailtemplate']['status']=="Published")
+                        //         {
+                        //             $message=eval('return "' . addslashes($emailSettingArr['Emailtemplate']['description']) . '";');
+                        //             $Email = new CakeEmail();
+                        //             $Email->transport($this->emailSettype);
+                        //             if($this->emailSettype=="Smtp")
+                        //             $Email->config(array('host' => $this->emailHost,'port' =>  $this->emailPort,'username' => $this->emailUsername,'password' => $this->emailPassword));
+                        //             $Email->from(array($this->siteEmail =>$this->siteName));
+                        //             $Email->to($email);
+                        //             $Email->template('default');
+                        //             $Email->emailFormat('html');
+                        //             $Email->subject($emailSettingArr['Emailtemplate']['name']);
+                        //             $Email->send($message);
+                        //             /* End Email */
+                        //         }
+                        //     }
+                        // }
+                        // $this->smsNotification ='';
+                        // if($this->smsNotification)
+                        // {
+                        //     /* Send Sms */
+                        //     $this->loadModel('Smstemplate');
+                        //     $smsTemplateArr=$this->Smstemplate->findByType('SLC');
+                        //     if($smsTemplateArr['Smstemplate']['status']=="Published")
+                        //     {
+                        //         $url="$this->siteDomain";
+                        //         $message=eval('return "' . addslashes($smsTemplateArr['Smstemplate']['description']) . '";');
+                        //         $this->CustomFunction->sendSms($mobileNo,$message,$this->smsSettingArr);
+                        //     }
+                        //     /* End Sms */
+                        // }
+
+                        echo $Id = $this->Member->getLastInsertID();
+                        $this->loadModel('MembersPhoto');
+                        $photoArr=array();
+                        $dirName="member";
+                        foreach($this->request->data['Pr']['photo'] as $Photo)
+                        {
+                            $fileName=$this->CustomFunction->upload($Photo['tmp_name'],$Photo['name'],$dirName,$this->siteOrganization);
+                            if(strlen($fileName)>0)
+                            {
+                                $photoArr[]=(array('member_id'=>$Id,'photo' => $fileName));
+                            }
+                        }
+                        $this->MembersPhoto->saveAll($photoArr);
+                        
 
                         $this->Session->setFlash(__('Member added Successfully'),'flash',array('alert'=>'success'));
                         return $this->redirect(array('action' => 'add'));
@@ -148,6 +174,12 @@ class MembersController extends AdminAppController {
         $this->loadModel('Habit');
         $this->loadModel('Occupation');
         $this->loadModel('Rashy');
+        $this->loadModel('Weight');
+        $this->loadModel('Income');
+        $this->loadModel('Town');
+        $this->loadModel('Familyvalue');
+        $this->loadModel('Familytype');
+        $this->loadModel('Familystatus');
         $this->set('mothertongueName',$this->Mothertongue->find('list',array('order'=>array('name'=>'asc'))));
         $this->set('stateName',$this->State->find('list',array('conditions'=>array('State.country_id'=>$countryId),'order'=>array('State.name'=>'asc'))));
         $this->set('cityName',$this->City->find('list',array('conditions'=>array('City.state_id'=>$stateId),'order'=>array('City.name'=>'asc'))));
@@ -161,6 +193,12 @@ class MembersController extends AdminAppController {
         $this->set('habitName',$this->Habit->find('list',array('order'=>array('name'=>'asc'))));
         $this->set('occupationName',$this->Occupation->find('list',array('order'=>array('name'=>'asc'))));
         $this->set('rashiName',$this->Rashy->find('list',array('order'=>array('name'=>'asc'))));
+        $this->set('weightName',$this->Weight->find('list',array('order'=>array('name'=>'asc'))));
+        $this->set('incomeName',$this->Income->find('list',array('order'=>array('name'=>'asc'))));
+        $this->set('townName',$this->Town->find('list',array('conditions'=>array('Town.state_id'=>$stateId),'order'=>array('Town.name'=>'asc'))));
+        $this->set('familyValue',$this->Familyvalue->find('list',array('order'=>array('name'=>'asc'))));
+        $this->set('familyType',$this->Familytype->find('list',array('order'=>array('name'=>'asc'))));
+        $this->set('familyStatus',$this->Familystatus->find('list',array('order'=>array('name'=>'asc'))));
         
     }
     public function edit($id = null)
@@ -178,6 +216,12 @@ class MembersController extends AdminAppController {
         $this->loadModel('Habit');
         $this->loadModel('Occupation');
         $this->loadModel('Rashy');
+        $this->loadModel('Weight');
+        $this->loadModel('Income');
+        $this->loadModel('Town');
+        $this->loadModel('Familyvalue');
+        $this->loadModel('Familytype');
+        $this->loadModel('Familystatus');
         $this->set('mothertongueName',$this->Mothertongue->find('list',array('order'=>array('name'=>'asc'))));
         $this->set('countryName',$this->Country->find('list',array('order'=>array('name'=>'asc'))));
         $this->set('employedName',$this->Employed->find('list',array('order'=>array('name'=>'asc'))));
@@ -188,7 +232,15 @@ class MembersController extends AdminAppController {
         $this->set('habitName',$this->Habit->find('list',array('order'=>array('name'=>'asc'))));
         $this->set('occupationName',$this->Occupation->find('list',array('order'=>array('name'=>'asc'))));
         $this->set('rashiName',$this->Rashy->find('list',array('order'=>array('name'=>'asc'))));
+        $this->set('weightName',$this->Weight->find('list',array('order'=>array('name'=>'asc'))));
+        $this->set('incomeName',$this->Income->find('list',array('order'=>array('name'=>'asc'))));
+        $this->set('townName',$this->Town->find('list',array('order'=>array('Town.name'=>'asc'))));
+        $this->set('familyValue',$this->Familyvalue->find('list',array('order'=>array('name'=>'asc'))));
+        $this->set('familyType',$this->Familytype->find('list',array('order'=>array('name'=>'asc'))));
+        $this->set('familyStatus',$this->Familystatus->find('list',array('order'=>array('name'=>'asc'))));
         $this->set('luserId',$this->luserId);
+
+       // echo "SDSDSDS".$id;die;
         if (!$id)
         {
             throw new NotFoundException(__('Invalid post'));
@@ -204,62 +256,87 @@ class MembersController extends AdminAppController {
                                                        'conditions'=>array('State.country_id'=>$post[$k]['Member']['country_id'])));
             $this->set("stateName$k",$stateName);
             $cityName=$this->City->find('list',array('order'=>array('name'=>'asc'),
-                                                     'conditions'=>array('City.state_id'=>$post[$k]['Member']['state_id'])));
+                                                     'conditions'=>array('City.town_id'=>$post[$k]['Member']['town_id'])));
             $this->set("cityName$k",$cityName);
+            $townName=$this->Town->find('list',array('order'=>array('name'=>'asc'),
+                                                     'conditions'=>array('Town.state_id'=>$post[$k]['Member']['state_id'])));
+//print_r($townName);die;
+            $this->set("townName$k",$townName);
             $casteName=$this->Caste->find('list',array('order'=>array('name'=>'asc'),
                                                        'conditions'=>array('Caste.religion_id'=>$post[$k]['Member']['religion_id'])));
             $this->set("casteName$k",$casteName);
         }
+        //print_r($post);die;
         $this->set('Member',$post);
+         
         if (!$post)
         {
             throw new NotFoundException(__('Invalid post'));
         }
         if ($this->request->is(array('post', 'put')))
-        {
+        { 
             $isSave=true;
             try
             {
                 foreach($this->request->data as $k=> $value)
-                {
-                    if($value['Member']['status']=="Active")
+                { //print_r($value['Member']['status']);die;
+                    if(@$value['Member']['status']=="Active")
                     {
                         $this->request->data[$k]['Member']['reg_status']="Done";
                         $this->request->data[$k]['Member']['reg_code']="";
-                    }                    
+                    }                     
                 }
                 
-                //print_r($this->request->data); echo $this->request->data['Member']['horoscopeimg']['name'];die;
-
                 if($isSave==true)
                 {
-                    $this->Member->unbindValidation('remove', array('user_name','birth_place','email','password','photo'), true);
-                    if($this->Member->saveAll($this->request->data))
+               /* $horoscopeName = $this->request->data[$k]['Member']['horoscopeimg']['name'];
+                $horoscopeTmp = $this->request->data[$k]['Member']['horoscopeimg']['tmp_name'];
+                $horoscopefileName=$this->CustomFunction->upload($horoscopeTmp,$horoscopeName,'horoscope',$this->siteOrganization);
+                if(strlen($horoscopefileName)>0)
+                {
+                    $this->request->data[$k]['Member']['horoscopeimg']=$horoscopefileName;
+                    //$horoscoperecord=array('Member'=>array('id'=>$profileId,'horoscope'=>$horoscopefileName));
+                    //$this->Member->saveAll($horoscoperecord);
+                }
+                
+                $proofName = $this->request->data[$k]['Member']['proofimg']['name'];
+                $proofTmp = $this->request->data[$k]['Member']['proofimg']['tmp_name'];
+                $prooffileName=$this->CustomFunction->upload($proofTmp,$proofName,'proof',$this->siteOrganization);
+                if(strlen($prooffileName)>0)
+                {
+                    $this->request->data[$k]['Member']['horoscopeimg']=$horoscopefileName;
+                    //$proofrecord=array('Member'=>array('id'=>$profileId,'proof'=>$prooffileName));
+                    //$this->Member->save($proofrecord);
+                }
+                //print_r($this->request->data); echo $this->request->data['Member']['horoscopeimg']['name'];die;
+                $photoName=$this->request->data[$k]['Member']['photoimg']['name'];
+                $photoTmp=$this->request->data[$k]['Member']['photoimg']['tmp_name'];
+                $fileName=$this->CustomFunction->upload($photoTmp,$photoName,'member',$this->siteOrganization);
+                if(strlen($fileName)>0)
+                {
+                                    //$this->Register->unbindValidation('remove', array('user_name','email','name','password','phone'), true);
+                                    //$record=array('Register'=>array('id'=>$this->Register->id,'photo'=>$fileName));
+                                    //$this->Register->save($record);
+                                    $this->request->data[$k]['Member']['photo'] = $fileName;
+                }
+*/
+            
+                 // print_r($this->request->data);die;
+                    $this->Member->unbindValidation('remove', array('user_name','email','password','photo'), true);
+                    
+                  if($this->Member->saveAll($this->request->data))
                     {
-
-                        $horoscopeName = $this->request->data['Member']['horoscopeimg']['name'];
-                        $horoscopeTmp = $this->request->data['Member']['horoscopeimg']['tmp_name'];
-                        $horoscopefileName=$this->CustomFunction->upload($horoscopeTmp,$horoscopeName,'horoscope',$this->siteOrganization);
-                        if(strlen($horoscopefileName)>0)
-                        {
-                            //$this->request->data['Profile']['horoscopeimg']=$horoscopefileName;
-                            $horoscoperecord=array('Member'=>array('id'=>$profileId,'horoscope'=>$horoscopefileName));
-                            $this->Member->saveAll($horoscoperecord);
-                        }
-                        
-                        $proofName = $this->request->data['Member']['proofimg']['name'];
-                        $proofTmp = $this->request->data['Member']['proofimg']['tmp_name'];
-                        $prooffileName=$this->CustomFunction->upload($proofTmp,$proofName,'proof',$this->siteOrganization);
-                        if(strlen($prooffileName)>0)
-                        {
-                            //$this->request->data['Profile']['horoscopeimg']=$horoscopefileName;
-                            $proofrecord=array('Member'=>array('id'=>$profileId,'proof'=>$prooffileName));
-                            $this->Member->save($proofrecord);
-                        }
+                       // echo $isSave."SDSDS";die;
+                       //debug($this->Member->validationErrors);die;
                       
                         $this->Session->setFlash(__('Member has been updated'),'flash',array('alert'=>'success'));
-                        return $this->redirect(array('action' => 'index'));
+                    return $this->redirect(array('action' => 'index'));
+                    } else{
+                        echo "elsepart";
+                       echo debug($this->Member->validationErrors); die();
                     }
+
+                   
                 }                
             }
             catch (Exception $e)
